@@ -33,7 +33,7 @@ public class Formulario extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         txtNasc = new javax.swing.JFormattedTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbSexo = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -72,7 +72,7 @@ public class Formulario extends javax.swing.JDialog {
             ex.printStackTrace();
         }
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "F" }));
+        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "F" }));
 
         jLabel11.setText("Sexo:");
 
@@ -96,7 +96,7 @@ public class Formulario extends javax.swing.JDialog {
                     .addGap(310, 310, 310)
                     .addComponent(jLabel11)
                     .addGap(35, 35, 35)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(77, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
@@ -116,7 +116,7 @@ public class Formulario extends javax.swing.JDialog {
                     .addGap(49, 49, 49)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -313,7 +313,7 @@ public class Formulario extends javax.swing.JDialog {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jblFinalizarInscricao)
                 .addContainerGap())
         );
@@ -328,7 +328,7 @@ public class Formulario extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         pack();
@@ -356,8 +356,9 @@ public class Formulario extends javax.swing.JDialog {
         String inst = txtIns.getText();
         String nasc = txtNasc.getText();
         String cpf = txtCpf.getText();
+        String sexo = (String) cbSexo.getSelectedItem();
         
-        usuario = new Usuario(cpf, nome, email, senha, endereco, nasc);
+        usuario = new Usuario(cpf, nome, email, senha, tel, endereco, curso, inst, nasc, sexo);
         
         //String consulta = "from Evento a where a.pkCodEvent like '6%'";
          
@@ -450,7 +451,7 @@ public class Formulario extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Object> cbListaPalestras;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbSexo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -18,19 +18,22 @@
             <column name="senha" length="10" not-null="true" />
         </property>
         <property name="telefone" type="string">
-            <column name="telefone" length="20" />
+            <column name="telefone" length="20" not-null="true" />
         </property>
         <property name="endereco" type="string">
             <column name="endereco" length="100" not-null="true" />
         </property>
         <property name="curso" type="string">
-            <column name="curso" length="100" />
+            <column name="curso" length="100" not-null="true" />
         </property>
         <property name="instituicao" type="string">
-            <column name="instituicao" length="100" />
+            <column name="instituicao" length="100" not-null="true" />
         </property>
         <property name="dataNasc" type="string">
             <column name="data_nasc" length="20" not-null="true" />
+        </property>
+        <property name="sexo" type="string">
+            <column name="sexo" length="1" not-null="true" />
         </property>
         <set name="RUsuarioEventos" table="r_usuario_evento" inverse="true" lazy="true" fetch="select">
             <key>

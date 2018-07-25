@@ -20,21 +20,14 @@ public class Usuario  implements java.io.Serializable {
      private String curso;
      private String instituicao;
      private String dataNasc;
+     private String sexo;
      private Set RUsuarioEventos = new HashSet(0);
 
     public Usuario() {
     }
 
 	
-    public Usuario(String pkCpf, String nome, String email, String senha, String endereco, String dataNasc) {
-        this.pkCpf = pkCpf;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.endereco = endereco;
-        this.dataNasc = dataNasc;
-    }
-    public Usuario(String pkCpf, String nome, String email, String senha, String telefone, String endereco, String curso, String instituicao, String dataNasc, Set RUsuarioEventos) {
+    public Usuario(String pkCpf, String nome, String email, String senha, String telefone, String endereco, String curso, String instituicao, String dataNasc, String sexo) {
        this.pkCpf = pkCpf;
        this.nome = nome;
        this.email = email;
@@ -44,6 +37,19 @@ public class Usuario  implements java.io.Serializable {
        this.curso = curso;
        this.instituicao = instituicao;
        this.dataNasc = dataNasc;
+       this.sexo = sexo;
+    }
+    public Usuario(String pkCpf, String nome, String email, String senha, String telefone, String endereco, String curso, String instituicao, String dataNasc, String sexo, Set RUsuarioEventos) {
+       this.pkCpf = pkCpf;
+       this.nome = nome;
+       this.email = email;
+       this.senha = senha;
+       this.telefone = telefone;
+       this.endereco = endereco;
+       this.curso = curso;
+       this.instituicao = instituicao;
+       this.dataNasc = dataNasc;
+       this.sexo = sexo;
        this.RUsuarioEventos = RUsuarioEventos;
     }
    
@@ -110,6 +116,16 @@ public class Usuario  implements java.io.Serializable {
     public void setDataNasc(String dataNasc) {
         this.dataNasc = dataNasc;
     }
+    
+    
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+    
     public Set getRUsuarioEventos() {
         return this.RUsuarioEventos;
     }
