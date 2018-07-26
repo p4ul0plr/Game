@@ -22,6 +22,7 @@ public class Login extends javax.swing.JDialog {
      */
     public Login(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        Login.usuario = null;
         initComponents();
     }
 
@@ -117,15 +118,15 @@ public class Login extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    public static Usuario usuario;
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        Usuario usuario = null;
+
         String hql = "from Usuario user where user.pkCpf like :usuario";
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query query = session.createQuery(hql);
         query.setString("usuario",txtCpf.getText());
-        usuario = (Usuario) query.uniqueResult();
+        Login.usuario = (Usuario) query.uniqueResult();
         session.getTransaction().commit();
         
         if("00000000000".equals(txtCpf.getText()) && "000".equals(txtSenha.getText())){
