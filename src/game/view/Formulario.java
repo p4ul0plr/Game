@@ -8,6 +8,7 @@ import game.util.HibernateUtil;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -276,6 +277,11 @@ public class Formulario extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblPalestras);
 
         btnAdicionarPalestra.setText("Adicionar Palestra");
+        btnAdicionarPalestra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarPalestraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -388,8 +394,8 @@ public class Formulario extends javax.swing.JDialog {
         System.out.println("CPF: " + usr.isEmpty());
 
         if (nome.isEmpty() == true || email.isEmpty() == true || senha.isEmpty() == true
-            || tel.isEmpty() == true || endereco.isEmpty() == true || curso.isEmpty() == true
-            || inst.isEmpty() == true || nasc.isEmpty() == true || cpf.isEmpty() == true) {
+                || tel.isEmpty() == true || endereco.isEmpty() == true || curso.isEmpty() == true
+                || inst.isEmpty() == true || nasc.isEmpty() == true || cpf.isEmpty() == true) {
             JOptionPane.showMessageDialog(null, "Informações Inválidas!");
         } else {
             if (usr.isEmpty() == false) {
@@ -436,6 +442,20 @@ public class Formulario extends javax.swing.JDialog {
     private void cbListaPalestrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListaPalestrasActionPerformed
 
     }//GEN-LAST:event_cbListaPalestrasActionPerformed
+
+    private void btnAdicionarPalestraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarPalestraActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel tabelaDeEventos = (DefaultTableModel) tblPalestras.getModel();
+        Evento eventos = (Evento) cbListaPalestras.getSelectedItem();
+        Object[] eventosV = new Object[tabelaDeEventos.getColumnCount()];
+        eventosV[0] = eventos.getNome();
+        eventosV[1] = eventos.getHorario();
+        eventosV[2] = eventos.getDataEvent();
+        eventosV[3] = eventos.getSala();
+        eventosV[4] = eventos.getPalestrante();
+        eventosV[5] = eventos.getTipo();
+        tabelaDeEventos.addRow(eventosV);
+    }//GEN-LAST:event_btnAdicionarPalestraActionPerformed
 
     private ArrayList<Evento> capturarEventos() {
         Session session = HibernateUtil.getSessionFactory().openSession();
