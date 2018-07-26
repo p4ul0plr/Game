@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.view;
 
 import game.entity.Evento;
+import game.entity.Usuario;
 import game.util.HibernateUtil;
 import javax.swing.table.DefaultTableModel;
-import game.view.Formulario;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -39,11 +33,21 @@ public class PalestrasInscritas extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Usuario usuario = Login.usuario;
+        /*Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Criteria c = session.createCriteria(Evento.class);
         ArrayList<Evento> eventoA = (ArrayList<Evento>) c.list();
+        session.getTransaction().commit();*/
+        
+        String hql = "select rel.evento from RUsuarioEvento rel where rel.usuario.pkCpf  like :CPF";
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery(hql);
+        query.setString("CPF", usuario.getPkCpf());
+        ArrayList<Evento> eventoA = (ArrayList<Evento>) query.list();
         session.getTransaction().commit();
+        System.out.println();
         
         DefaultTableModel tabelaDePalestas = (DefaultTableModel) tblPalestrasDoUsuario.getModel();
         Object[] eventoV = new Object[tabelaDePalestas.getColumnCount()];
