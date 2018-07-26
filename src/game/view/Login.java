@@ -119,21 +119,22 @@ public class Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+        Usuario usuario = null;
         String hql = "from Usuario user where user.pkCpf like :usuario";
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query query = session.createQuery(hql);
         query.setString("usuario",txtCpf.getText());
-        Usuario usuario = (Usuario) query.uniqueResult();
+        usuario = (Usuario) query.uniqueResult();
         session.getTransaction().commit();
         
         if("00000000000".equals(txtCpf.getText()) && "000".equals(txtSenha.getText())){
             dispose();
             MenuAdm adm = new MenuAdm(this, true);
             adm.setVisible(true);
-        } else if (!(usuario.getSenha().equals(txtSenha.getText())) || usuario == null){
+        } else if ((usuario == null) || (!usuario.getSenha().equals(txtSenha.getText()))){
             JOptionPane.showMessageDialog(null, "Dados inválidos!");
-        } else {
+        } else{
             dispose();
             VisualizarInscricao insc = new VisualizarInscricao(this, true);
             insc.setVisible(true);
