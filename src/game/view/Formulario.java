@@ -15,6 +15,9 @@ import org.hibernate.criterion.Restrictions;
 
 public class Formulario extends javax.swing.JDialog {
 
+    ArrayList<Evento> palestrasDoUsuario = new ArrayList<>();
+    int i = 0;
+
     public Formulario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -90,15 +93,15 @@ public class Formulario extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(84, 84, 84)
+                                .addGap(50, 50, 50)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(260, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())))
@@ -113,12 +116,16 @@ public class Formulario extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(txtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -404,10 +411,17 @@ public class Formulario extends javax.swing.JDialog {
             } else {
                 usuario = new Usuario(cpf, nome, email, senha, tel, endereco, curso, inst, nasc, sexo);
                 session.save(usuario);
-                Evento evento = (Evento) cbListaPalestras.getSelectedItem();
-                RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, evento.getPkCodEvent());
-                RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, evento, usuario, 0);
-                session.save(rUsuarioEvento);
+//                Evento evento = (Evento) cbListaPalestras.getSelectedItem();
+//                RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, evento.getPkCodEvent());
+//                RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, evento, usuario, 0);
+//                session.save(rUsuarioEvento);
+
+                for (Evento e : palestrasDoUsuario) {
+                    RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, e.getPkCodEvent());
+                    RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, e, usuario, 0);
+                    session.save(rUsuarioEvento);
+                }
+
                 session.getTransaction().commit();
             }
         }
@@ -447,6 +461,7 @@ public class Formulario extends javax.swing.JDialog {
         // TODO add your handling code here:
         DefaultTableModel tabelaDeEventos = (DefaultTableModel) tblPalestras.getModel();
         Evento eventos = (Evento) cbListaPalestras.getSelectedItem();
+        palestrasDoUsuario.add(eventos);
         Object[] eventosV = new Object[tabelaDeEventos.getColumnCount()];
         eventosV[0] = eventos.getNome();
         eventosV[1] = eventos.getHorario();
@@ -455,6 +470,9 @@ public class Formulario extends javax.swing.JDialog {
         eventosV[4] = eventos.getPalestrante();
         eventosV[5] = eventos.getTipo();
         tabelaDeEventos.addRow(eventosV);
+
+        System.out.println(palestrasDoUsuario.get(i).getPalestrante());
+        i++;
     }//GEN-LAST:event_btnAdicionarPalestraActionPerformed
 
     private ArrayList<Evento> capturarEventos() {
