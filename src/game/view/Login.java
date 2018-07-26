@@ -7,8 +7,6 @@ package game.view;
 
 import game.entity.Usuario;
 import game.util.HibernateUtil;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
