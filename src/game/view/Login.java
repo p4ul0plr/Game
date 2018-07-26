@@ -5,7 +5,13 @@
  */
 package game.view;
 
+import game.entity.Usuario;
+import game.util.HibernateUtil;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -115,19 +121,25 @@ public class Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-
-        if ("66666666666".equals(txtCpf.getText())) {
+        String hql = "from Usuario user where user.pkCpf like :usuario";
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery(hql);
+        query.setString("usuario",txtCpf.getText());
+        Usuario usuario = (Usuario) query.uniqueResult();
+        session.getTransaction().commit();
+        
+        if("00000000000".equals(txtCpf.getText()) && "000".equals(txtSenha.getText())){
             dispose();
             MenuAdm adm = new MenuAdm(this, true);
             adm.setVisible(true);
+        } else if (!(usuario.getSenha().equals(txtSenha.getText())) || usuario == null){
+            JOptionPane.showMessageDialog(null, "Dados inválidos!");
         } else {
             dispose();
             VisualizarInscricao insc = new VisualizarInscricao(this, true);
-            insc.setCpf(txtCpf.getText());
-            //JOptionPane.showMessageDialog(null, "CPF: "+insc.getCpf());
             insc.setVisible(true);
         }
-
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**
