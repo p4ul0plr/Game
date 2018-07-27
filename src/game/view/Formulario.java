@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -380,7 +381,7 @@ public class Formulario extends javax.swing.JDialog {
     private void jblFinalizarInscricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jblFinalizarInscricaoActionPerformed
         // TODO add your handling code here:
 
-        Usuario usuario;
+        Usuario usuario = null;
         String nome = txtNome.getText();
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
@@ -398,8 +399,8 @@ public class Formulario extends javax.swing.JDialog {
         Criteria c = session.createCriteria(Usuario.class);
         c.add(Restrictions.eq("pkCpf", cpf));
         ArrayList<Evento> usr = (ArrayList<Evento>) c.list();
-        System.out.println("CPF: " + usr.isEmpty());
-
+        session.getTransaction().commit();
+        
         if (nome.isEmpty() == true || email.isEmpty() == true || senha.isEmpty() == true
                 || tel.isEmpty() == true || endereco.isEmpty() == true || curso.isEmpty() == true
                 || inst.isEmpty() == true || nasc.isEmpty() == true || cpf.isEmpty() == true) {
@@ -407,50 +408,32 @@ public class Formulario extends javax.swing.JDialog {
         } else {
             if (usr.isEmpty() == false) {
                 JOptionPane.showMessageDialog(null, "Já existe usário cadastrado com o CPF: " + cpf);
-                System.out.println("Nome: " + nome.isEmpty());
             } else {
-                usuario = new Usuario(cpf, nome, email, senha, tel, endereco, curso, inst, nasc, sexo);
-                session.save(usuario);
-//                Evento evento = (Evento) cbListaPalestras.getSelectedItem();
-//                RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, evento.getPkCodEvent());
-//                RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, evento, usuario, 0);
-//                session.save(rUsuarioEvento);
-
+                try {
+                    Session session1 = HibernateUtil.getSessionFactory().getCurrentSession();
+                    session1.beginTransaction();
+                    session1.getTransaction().commit();
+                    usuario = new Usuario(cpf, nome, email, senha, tel, endereco, curso, inst, nasc, sexo);
+                    session1.save(usuario);
+                } catch (HibernateException e) {
+                    System.out.println("Erro ao inserir usuário!");
+                }
                 for (Evento e : palestrasDoUsuario) {
-                    RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, e.getPkCodEvent());
-                    RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, e, usuario, 0);
-                    session.save(rUsuarioEvento);
+                    try {
+                        Session session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+                        session2.beginTransaction();
+                        session2.getTransaction().commit();
+                        RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, e.getPkCodEvent());
+                        RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, e, usuario, 0);
+                        session2.save(rUsuarioEvento);
+                    } catch (HibernateException e1) {
+                        System.out.println("Erro ao inserir palestra ao usuário!");
+                    }
+
                 }
 
-                session.getTransaction().commit();
             }
         }
-
-        //String consulta = "from Evento a where a.pkCodEvent like '6%'";
-        //RUsuarioEventoId relacao = new RUsuarioEventoId(cpf, 6);
-        //RUsuarioEvento rel = new RUsuarioEvento(relacao, evento, user, 1);
-        //Session session = HibernateUtil.getSessionFactory().openSession();
-        //session.beginTransaction();
-        //Query q = session.createQuery(consulta);
-        //System.out.println(q.setResultTransformer(new AliasToBeanResultTransformer(Evento.class)).list());
-        //Session session = HibernateUtil.getSessionFactory().openSession();
-        //session.beginTransaction();
-        //Query q = session.createQuery(consulta);
-        //c.createCriteria("pkCodEvent").add(Restrictions.eq())
-        //ArrayList<Evento> evento = (ArrayList<Evento>) c.list();
-        //System.out.println("" +evento.get(0).getNome());
-        //System.out.println(" Teste: " +evento.get(0).toString());
-        //s.save(evento);
-        //s.save(rel);
-        //session.getTransaction().commit();
-        //JOptionPane.showMessageDialog(null, "ID: "+e.getPkCodEvent());
-
-        /*String eventoSelecionado = cbListaPalestras.getSelectedItem().toString();
-
-        capturarEventos().forEach((evento1) -> {
-            if(evento1.getNome().equals(eventoSelecionado))
-            System.out.println(evento1.getPalestrante());
-        });*/
     }//GEN-LAST:event_jblFinalizarInscricaoActionPerformed
 
     private void cbListaPalestrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListaPalestrasActionPerformed
