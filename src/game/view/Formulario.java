@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 public class Formulario extends javax.swing.JDialog {
@@ -379,8 +381,7 @@ public class Formulario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jblFinalizarInscricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jblFinalizarInscricaoActionPerformed
-        // TODO add your handling code here:
-
+        
         Usuario usuario = null;
         String nome = txtNome.getText();
         String email = txtEmail.getText();
@@ -393,14 +394,13 @@ public class Formulario extends javax.swing.JDialog {
         String cpf = txtCpf.getText();
         String sexo = (String) cbSexo.getSelectedItem();
 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session session = sf.openSession();
 
         Criteria c = session.createCriteria(Usuario.class);
         c.add(Restrictions.eq("pkCpf", cpf));
         ArrayList<Evento> usr = (ArrayList<Evento>) c.list();
-        session.getTransaction().commit();
-        
+
         if (nome.isEmpty() == true || email.isEmpty() == true || senha.isEmpty() == true
                 || tel.isEmpty() == true || endereco.isEmpty() == true || curso.isEmpty() == true
                 || inst.isEmpty() == true || nasc.isEmpty() == true || cpf.isEmpty() == true) {
@@ -410,30 +410,28 @@ public class Formulario extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Já existe usário cadastrado com o CPF: " + cpf);
             } else {
                 try {
-                    Session session1 = HibernateUtil.getSessionFactory().getCurrentSession();
-                    session1.beginTransaction();
-                    session1.getTransaction().commit();
                     usuario = new Usuario(cpf, nome, email, senha, tel, endereco, curso, inst, nasc, sexo);
-                    session1.save(usuario);
+                    session.save(usuario);
+
                 } catch (HibernateException e) {
-                    System.out.println("Erro ao inserir usuário!");
+                    System.out.println("Erro ao inserir usuário!" + e.getLocalizedMessage());
                 }
                 for (Evento e : palestrasDoUsuario) {
                     try {
-                        Session session2 = HibernateUtil.getSessionFactory().getCurrentSession();
-                        session2.beginTransaction();
-                        session2.getTransaction().commit();
                         RUsuarioEventoId rUsuarioEventoId = new RUsuarioEventoId(cpf, e.getPkCodEvent());
                         RUsuarioEvento rUsuarioEvento = new RUsuarioEvento(rUsuarioEventoId, e, usuario, 0);
-                        session2.save(rUsuarioEvento);
+                        session.save(rUsuarioEvento);
                     } catch (HibernateException e1) {
-                        System.out.println("Erro ao inserir palestra ao usuário!");
+                        System.out.println("Erro ao inserir palestra ao usuário!" + e1.getLocalizedMessage());
                     }
-
                 }
-
             }
         }
+        
+        Transaction tr = session.beginTransaction();
+        tr.commit();
+        session.flush();
+        session.close();
     }//GEN-LAST:event_jblFinalizarInscricaoActionPerformed
 
     private void cbListaPalestrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListaPalestrasActionPerformed
