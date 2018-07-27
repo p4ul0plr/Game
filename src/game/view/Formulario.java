@@ -6,6 +6,8 @@ import game.entity.RUsuarioEventoId;
 import game.entity.Usuario;
 import game.util.HibernateUtil;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -383,6 +385,7 @@ public class Formulario extends javax.swing.JDialog {
     private void jblFinalizarInscricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jblFinalizarInscricaoActionPerformed
         
         Usuario usuario = null;
+        Set s = new HashSet(0);
         String nome = txtNome.getText();
         String email = txtEmail.getText();
         String senha = txtSenha.getText();

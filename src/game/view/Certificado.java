@@ -5,6 +5,26 @@
  */
 package game.view;
 
+import game.entity.Evento;
+import game.entity.RUsuarioEvento;
+import game.entity.RUsuarioEventoId;
+import game.entity.Usuario;
+import game.util.HibernateUtil;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+
 /**
  *
  * @author UNIVASF
@@ -14,9 +34,58 @@ public class Certificado extends javax.swing.JDialog {
     /**
      * Creates new form Certificado
      */
-    public Certificado(javax.swing.JDialog parent, boolean modal) {
+    private String cpf;
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    private void gerarCertificado(Usuario usuario) throws FileNotFoundException {
+
+        File file = new File("arquivo.txt");
+        PrintWriter pr = new PrintWriter(file);
+        pr.println("---------------------------------------------------------------- CERTIFICADO -------------------------------------------------------------------");
+        pr.println("\n\n\n\n\n\n\n\n");
+        pr.println("Certificamos que " + usuario.getNome()
+                + " portador(a) do CPF " + usuario.getPkCpf()
+                + " participou do Game Weekend Univasf 2018 Evento dedicado a Jogos realizada da Universidade Federal do Vale do São Francisco, 20 e 21 de outubro de 2018");
+        pr.println("\n\n\n\n\n\n\n\n\n\n");
+        pr.println("--------------------------------------------------------------------------------------------------------------------------------------------------------");
+        pr.close();
+        FileInputStream fis = null;
+        String texto = "";
+
+        try {
+            fis = new FileInputStream(file);
+            int content;
+            while ((content = fis.read()) != -1) {
+                texto += (char) content;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        txtConteudoDoCertificado.setText(texto);
+        txtConteudoDoCertificado.setLineWrap(true);
+
+    }
+
+    public Certificado(javax.swing.JDialog parent, boolean modal) throws FileNotFoundException {
         super(parent, modal);
         initComponents();
+        Usuario usuario = Login.usuario;
+        gerarCertificado(usuario);
     }
 
     /**
@@ -28,18 +97,41 @@ public class Certificado extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtConteudoDoCertificado = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Certificado");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.setPreferredSize(new java.awt.Dimension(640, 320));
+
+        txtConteudoDoCertificado.setEditable(false);
+        txtConteudoDoCertificado.setColumns(20);
+        txtConteudoDoCertificado.setRows(5);
+        jScrollPane1.setViewportView(txtConteudoDoCertificado);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
         );
 
         pack();
@@ -77,7 +169,12 @@ public class Certificado extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Certificado dialog = new Certificado(new javax.swing.JDialog(), true);
+                Certificado dialog = null;
+                try {
+                    dialog = new Certificado(new javax.swing.JDialog(), true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Certificado.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -90,5 +187,8 @@ public class Certificado extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtConteudoDoCertificado;
     // End of variables declaration//GEN-END:variables
 }

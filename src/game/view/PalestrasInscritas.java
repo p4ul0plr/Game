@@ -40,7 +40,7 @@ public class PalestrasInscritas extends javax.swing.JDialog {
         ArrayList<Evento> eventoA = (ArrayList<Evento>) c.list();
         session.getTransaction().commit();*/
         
-        String hql = "select rel.evento from RUsuarioEvento rel where rel.usuario.pkCpf  like :CPF";
+        String hql = "select rel.evento from RUsuarioEvento rel where rel.usuario.pkCpf like  :CPF";
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query query = session.createQuery(hql);

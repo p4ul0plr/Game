@@ -5,7 +5,16 @@
  */
 package game.view;
 
+import game.entity.RUsuarioEvento;
+import game.entity.Usuario;
+import game.util.HibernateUtil;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -28,12 +37,12 @@ public class VisualizarInscricao extends javax.swing.JDialog {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    
+
     public VisualizarInscricao(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,9 +124,39 @@ public class VisualizarInscricao extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        Certificado cert = new Certificado(this, true);
-        cert.setVisible(true);
+        Usuario usuario = Login.usuario;
+        boolean usuarioPresente = false;
+//        SessionFactory sf = HibernateUtil.getSessionFactory();
+//        Session session = sf.openSession();
+        String hql = "select rel from RUsuarioEvento rel where rel.usuario.pkCpf like :CPF";
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery(hql);
+        query.setString("CPF", usuario.getPkCpf());
+        ArrayList<RUsuarioEvento> rUsuarioEvento = (ArrayList<RUsuarioEvento>) query.list();
+        session.getTransaction().commit();
 
+        for (int i = 0; i < rUsuarioEvento.size(); i++) {
+            if (rUsuarioEvento.get(i).getPresenca() == 1) {
+                usuarioPresente = true;
+            }
+        }
+
+        if (usuarioPresente) {
+
+            Certificado cert = null;
+            try {
+                cert = new Certificado(this, true);
+                cert.setResizable(false);
+                cert.setCpf(getCpf());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(VisualizarInscricao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cert.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "O Usuário " + usuario.getNome() + " não tem direito a certificação!");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
