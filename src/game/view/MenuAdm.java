@@ -29,30 +29,35 @@ public class MenuAdm extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdicionarEvento = new javax.swing.JButton();
+        btnAtaDePresenca = new javax.swing.JButton();
+        btnInformacoesDosEventos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu Administrador");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opções"));
 
-        jButton1.setText("Adicionar evento");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdicionarEvento.setText("Adicionar evento");
+        btnAdicionarEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAdicionarEventoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ata de presença");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAtaDePresenca.setText("Ata de presença");
+        btnAtaDePresenca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAtaDePresencaActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Informações dos eventos");
+        btnInformacoesDosEventos.setText("Informações dos eventos");
+        btnInformacoesDosEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformacoesDosEventosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -63,22 +68,22 @@ public class MenuAdm extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1))
+                            .addComponent(btnAtaDePresenca)
+                            .addComponent(btnAdicionarEvento))
                         .addGap(138, 138, 138))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnInformacoesDosEventos)
                         .addGap(119, 119, 119))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(63, 63, 63)
-                .addComponent(jButton1)
+                .addComponent(btnAdicionarEvento)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnAtaDePresenca)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(btnInformacoesDosEventos)
                 .addContainerGap(133, Short.MAX_VALUE))
         );
 
@@ -97,22 +102,28 @@ public class MenuAdm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAdicionarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarEventoActionPerformed
 
         Informacoes inf = new Informacoes(this,true);
         inf.setVisible(true);
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAdicionarEventoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAtaDePresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtaDePresencaActionPerformed
 
         Presenca pres = new Presenca(this,true);
         pres.setVisible(true);
 
 
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAtaDePresencaActionPerformed
+
+    private void btnInformacoesDosEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesDosEventosActionPerformed
+        // TODO add your handling code here:
+        InformacoesDosEventos infEven = new InformacoesDosEventos(this, true);
+        infEven.setVisible(true);
+    }//GEN-LAST:event_btnInformacoesDosEventosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,9 +169,9 @@ public class MenuAdm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdicionarEvento;
+    private javax.swing.JButton btnAtaDePresenca;
+    private javax.swing.JButton btnInformacoesDosEventos;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

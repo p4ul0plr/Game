@@ -19,28 +19,26 @@ import org.hibernate.Session;
  *
  * @author UNIVASF
  */
-public class Presenca extends javax.swing.JDialog {
+public class InformacoesDosEventos extends javax.swing.JDialog {
 
     /**
      * Creates new form Presenca
      */
     ArrayList<Usuario> usuarioA;
     ArrayList<String> presencaA;
+    ArrayList<Evento> eventoA;
     int i = 0;
 
-    public Presenca(javax.swing.JDialog parent, boolean modal) {
+    public InformacoesDosEventos(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        Usuario usuario = Login.usuario;
-        Usuario evento = Login.usuario;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Criteria c = session.createCriteria(Evento.class);
-        ArrayList<Evento> eventoA = (ArrayList<Evento>) c.list();
+        eventoA = (ArrayList<Evento>) c.list();
         Criteria c1 = session.createCriteria(Usuario.class);
-        ArrayList<Usuario> usuarioA = (ArrayList<Usuario>) c1.list();
+        usuarioA = (ArrayList<Usuario>) c1.list();
         session.getTransaction().commit();
 
         eventoA.forEach((evento1) -> {
@@ -82,30 +80,59 @@ public class Presenca extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cbPresenca = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
-        cbEventos = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblPalestras = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListaDeParticipantes = new javax.swing.JTable();
-        btnSalvarPresenca = new javax.swing.JButton();
-
-        cbPresenca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Faltou", "Presente" }));
-        cbPresenca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbPresencaActionPerformed(evt);
-            }
-        });
+        jPanel3 = new javax.swing.JPanel();
+        cbEventos = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Presença dos inscritos");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        cbEventos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbEventosActionPerformed(evt);
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações sobre a palestra"));
+
+        tblPalestras.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Horário", "Data", "Sala", "Palestrante", "Tipo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jScrollPane2.setViewportView(tblPalestras);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 877, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuários inscritos"));
 
         tblListaDeParticipantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,43 +151,75 @@ public class Presenca extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tblListaDeParticipantes);
-        if (tblListaDeParticipantes.getColumnModel().getColumnCount() > 0) {
-            tblListaDeParticipantes.getColumnModel().getColumn(9).setCellEditor(new javax.swing.DefaultCellEditor(cbPresenca));
-        }
 
-        btnSalvarPresenca.setText("Salvar Presença");
-        btnSalvarPresenca.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 234, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Selecione o evento"));
+
+        cbEventos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarPresencaActionPerformed(evt);
+                cbEventosActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(391, 391, 391)
-                        .addComponent(btnSalvarPresenca)))
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(cbEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalvarPresenca)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,32 +267,21 @@ public class Presenca extends javax.swing.JDialog {
             tabelaDeUsuarios.addRow(usuariosV);
         }
 
+        DefaultTableModel tabelaDeEventos = (DefaultTableModel) tblPalestras.getModel();
+        Object[] eventosV = new Object[tabelaDeEventos.getColumnCount()];
+        
+        tabelaDeEventos.setRowCount(0);
+        
+        eventosV[0] = eventoCb.getNome();
+        eventosV[1] = eventoCb.getHorario();
+        eventosV[2] = eventoCb.getDataEvent();
+        eventosV[3] = eventoCb.getSala();
+        eventosV[4] = eventoCb.getPalestrante();
+        eventosV[5] = eventoCb.getTipo();
+        tabelaDeEventos.addRow(eventosV);
+
         session.getTransaction().commit();
     }//GEN-LAST:event_cbEventosActionPerformed
-
-    private void btnSalvarPresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPresencaActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btnSalvarPresencaActionPerformed
-
-    private void cbPresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPresencaActionPerformed
-        // TODO add your handling code here:
-//        String presenca = (String) cbPresenca.getSelectedItem();
-//        System.out.println("Está presente? = " + presenca);
-//        tblListaDeParticipantes.get;
-//        String presenca = (String) cbPresenca.getSelectedItem();
-//        System.out.println("Está presente? = " + presenca);
-//        if (presenca != null) {
-//            
-//        }
-        
-//        try {
-//            System.out.println("" + tblListaDeParticipantes.getValueAt(i, 9).toString());
-//        } catch (Exception e) {
-//            System.out.println("ComboBox nula");
-//        }
-
-    }//GEN-LAST:event_cbPresencaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,21 +300,23 @@ public class Presenca extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Presenca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformacoesDosEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Presenca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformacoesDosEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Presenca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformacoesDosEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Presenca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformacoesDosEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Presenca dialog = new Presenca(new javax.swing.JDialog(), true);
+                InformacoesDosEventos dialog = new InformacoesDosEventos(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -279,11 +329,14 @@ public class Presenca extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSalvarPresenca;
     private javax.swing.JComboBox<Object> cbEventos;
-    private javax.swing.JComboBox<String> cbPresenca;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblListaDeParticipantes;
+    private javax.swing.JTable tblPalestras;
     // End of variables declaration//GEN-END:variables
 }
