@@ -5,6 +5,14 @@
  */
 package game.view;
 
+import game.entity.Evento;
+import game.entity.Usuario;
+import game.util.HibernateUtil;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+
 /**
  *
  * @author UNIVASF
@@ -14,9 +22,28 @@ public class Presenca extends javax.swing.JDialog {
     /**
      * Creates new form Presenca
      */
+    private ArrayList<Evento> capturarEventos() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Criteria c = session.createCriteria(Evento.class);
+        ArrayList<Evento> evento = (ArrayList<Evento>) c.list();
+        Criteria c1 = session.createCriteria(Evento.class);
+        ArrayList<Evento> usuarioA = (ArrayList<Evento>) c.list();
+        session.getTransaction().commit();
+        return evento;
+    }
+
     public Presenca(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        capturarEventos().forEach((evento1) -> {
+            cbEventos.addItem(evento1);
+        });
+
+        cbPresenca.addItem("Faltou");
+        cbPresenca.addItem("presente");
+
     }
 
     /**
@@ -28,15 +55,39 @@ public class Presenca extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cbPresenca = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbEventos = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblListaDeParticipantes = new javax.swing.JTable();
+
+        cbPresenca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Presença dos inscritos");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Palestra 1", "Palestra 2", "Palestra 3", "Palestra 4", "Palestra 5" }));
+        tblListaDeParticipantes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nome", "CPF", "E-mail", "Telefone", "Endereço", "Curso", "Instituição", "Data de Nascimento", "Sexo", "Presença"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblListaDeParticipantes);
+        if (tblListaDeParticipantes.getColumnModel().getColumnCount() > 0) {
+            tblListaDeParticipantes.getColumnModel().getColumn(9).setCellEditor(new javax.swing.DefaultCellEditor(cbPresenca));
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -44,26 +95,30 @@ public class Presenca extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addComponent(cbEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -114,7 +169,10 @@ public class Presenca extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<Object> cbEventos;
+    private javax.swing.JComboBox<String> cbPresenca;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblListaDeParticipantes;
     // End of variables declaration//GEN-END:variables
 }

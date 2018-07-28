@@ -39,6 +39,7 @@ public class Usuario  implements java.io.Serializable {
        this.dataNasc = dataNasc;
        this.sexo = sexo;
     }
+    
     public Usuario(String pkCpf, String nome, String email, String senha, String telefone, String endereco, String curso, String instituicao, String dataNasc, String sexo, Set RUsuarioEventos) {
        this.pkCpf = pkCpf;
        this.nome = nome;
