@@ -6,11 +6,13 @@
 package game.view;
 
 import game.entity.Evento;
+import game.entity.RUsuarioEvento;
 import game.entity.Usuario;
 import game.util.HibernateUtil;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -22,28 +24,49 @@ public class Presenca extends javax.swing.JDialog {
     /**
      * Creates new form Presenca
      */
-    private ArrayList<Evento> capturarEventos() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Criteria c = session.createCriteria(Evento.class);
-        ArrayList<Evento> evento = (ArrayList<Evento>) c.list();
-        Criteria c1 = session.createCriteria(Evento.class);
-        ArrayList<Evento> usuarioA = (ArrayList<Evento>) c.list();
-        session.getTransaction().commit();
-        return evento;
-    }
-
     public Presenca(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
-        capturarEventos().forEach((evento1) -> {
+        Usuario usuario = Login.usuario;
+        Usuario evento = Login.usuario;
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Criteria c = session.createCriteria(Evento.class);
+        ArrayList<Evento> eventoA = (ArrayList<Evento>) c.list();
+        Criteria c1 = session.createCriteria(Usuario.class);
+        ArrayList<Usuario> usuarioA = (ArrayList<Usuario>) c1.list();
+        session.getTransaction().commit();
+
+        eventoA.forEach((evento1) -> {
             cbEventos.addItem(evento1);
         });
 
-        cbPresenca.addItem("Faltou");
-        cbPresenca.addItem("presente");
-
+//        Evento eventoCb = (Evento) cbEventos.getSelectedItem();
+//
+//        String hql = "select rel.usuario from RUsuarioEvento rel where rel.evento.pkCodEvent like :CODIGO_EVENTO";
+//        Query query = session.createQuery(hql);
+//        query.setString("CODIGO_EVENTO", eventoCb.getPkCodEvent().toString());
+//        
+//        ArrayList<RUsuarioEvento> rUsuarioEvento = (ArrayList<RUsuarioEvento>) query.list();
+//        DefaultTableModel tabelaDeUsuarios = (DefaultTableModel) tblListaDeParticipantes.getModel();
+//        Object[] usuariosV = new Object[tabelaDeUsuarios.getColumnCount()];
+//
+//        for (int i = 0; i < usuarioA.size(); i++) {
+//            usuariosV[0] = usuarioA.get(i).getNome();
+//            usuariosV[1] = usuarioA.get(i).getPkCpf();
+//            usuariosV[2] = usuarioA.get(i).getEmail();
+//            usuariosV[3] = usuarioA.get(i).getTelefone();
+//            usuariosV[4] = usuarioA.get(i).getEndereco();
+//            usuariosV[5] = usuarioA.get(i).getCurso();
+//            usuariosV[6] = usuarioA.get(i).getInstituicao();
+//            usuariosV[7] = usuarioA.get(i).getDataNasc();
+//            usuariosV[8] = usuarioA.get(i).getSexo();
+//            tabelaDeUsuarios.addRow(usuariosV);
+//        }
+        session.flush();
+        session.close();
     }
 
     /**
@@ -61,23 +84,29 @@ public class Presenca extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListaDeParticipantes = new javax.swing.JTable();
 
-        cbPresenca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbPresenca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Faltou", "Presente" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Presença dos inscritos");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        cbEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEventosActionPerformed(evt);
+            }
+        });
+
         tblListaDeParticipantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Nome", "CPF", "E-mail", "Telefone", "Endereço", "Curso", "Instituição", "Data de Nascimento", "Sexo", "Presença"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -124,6 +153,39 @@ public class Presenca extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEventosActionPerformed
+        // TODO add your handling code here:
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Evento eventoCb = (Evento) cbEventos.getSelectedItem();
+
+        String hql = "select rel.usuario from RUsuarioEvento rel where rel.evento.pkCodEvent like :CODIGO_EVENTO";
+        Query query = session.createQuery(hql);
+        query.setString("CODIGO_EVENTO", eventoCb.getPkCodEvent().toString());
+        ArrayList<Usuario> usuarioA = (ArrayList<Usuario>) query.list();
+
+        DefaultTableModel tabelaDeUsuarios = (DefaultTableModel) tblListaDeParticipantes.getModel();
+        Object[] usuariosV = new Object[tabelaDeUsuarios.getColumnCount()];
+
+        tabelaDeUsuarios.setRowCount(0);
+        
+        for (int i = 0; i < usuarioA.size(); i++) {
+            usuariosV[0] = usuarioA.get(i).getNome();
+            usuariosV[1] = usuarioA.get(i).getPkCpf();
+            usuariosV[2] = usuarioA.get(i).getEmail();
+            usuariosV[3] = usuarioA.get(i).getTelefone();
+            usuariosV[4] = usuarioA.get(i).getEndereco();
+            usuariosV[5] = usuarioA.get(i).getCurso();
+            usuariosV[6] = usuarioA.get(i).getInstituicao();
+            usuariosV[7] = usuarioA.get(i).getDataNasc();
+            usuariosV[8] = usuarioA.get(i).getSexo();
+            tabelaDeUsuarios.addRow(usuariosV);
+        }
+
+        session.getTransaction().commit();
+    }//GEN-LAST:event_cbEventosActionPerformed
 
     /**
      * @param args the command line arguments
