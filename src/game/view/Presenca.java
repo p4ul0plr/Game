@@ -192,7 +192,7 @@ public class Presenca extends javax.swing.JDialog {
 
         DefaultTableModel tabelaDeUsuarios = (DefaultTableModel) tblListaDeParticipantes.getModel();
         Object[] usuariosV = new Object[tabelaDeUsuarios.getColumnCount()];
-
+        
         tabelaDeUsuarios.setRowCount(0);
 
         for (int i = 0; i < usuarioA.size(); i++) {
@@ -218,21 +218,20 @@ public class Presenca extends javax.swing.JDialog {
 
     private void cbPresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPresencaActionPerformed
         // TODO add your handling code here:
-//        String presenca = (String) cbPresenca.getSelectedItem();
-//        System.out.println("Está presente? = " + presenca);
-//        tblListaDeParticipantes.get;
-//        String presenca = (String) cbPresenca.getSelectedItem();
-//        System.out.println("Está presente? = " + presenca);
-//        if (presenca != null) {
-//            
-//        }
-        
-//        try {
-//            System.out.println("" + tblListaDeParticipantes.getValueAt(i, 9).toString());
-//        } catch (Exception e) {
-//            System.out.println("ComboBox nula");
-//        }
+        //        String presenca = (String) cbPresenca.getSelectedItem();
+        //        System.out.println("Está presente? = " + presenca);
+        //        tblListaDeParticipantes.get;
+        //        String presenca = (String) cbPresenca.getSelectedItem();
+        //        System.out.println("Está presente? = " + presenca);
+        //        if (presenca != null) {
+            //
+            //        }
 
+        //        try {
+            //            System.out.println("" + tblListaDeParticipantes.getValueAt(i, 9).toString());
+            //        } catch (Exception e) {
+            //            System.out.println("ComboBox nula");
+            //        }
     }//GEN-LAST:event_cbPresencaActionPerformed
 
     /**
