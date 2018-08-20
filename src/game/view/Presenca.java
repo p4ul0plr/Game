@@ -6,7 +6,6 @@
 package game.view;
 
 import game.entity.Evento;
-import game.entity.RUsuarioEvento;
 import game.entity.Usuario;
 import game.util.HibernateUtil;
 import java.util.ArrayList;
@@ -24,51 +23,23 @@ public class Presenca extends javax.swing.JDialog {
     /**
      * Creates new form Presenca
      */
-    ArrayList<Usuario> usuarioA;
-    ArrayList<String> presencaA;
-    int i = 0;
+    private ArrayList<Usuario> usuarioA;
 
     public Presenca(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
-        Usuario usuario = Login.usuario;
-        Usuario evento = Login.usuario;
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Criteria c = session.createCriteria(Evento.class);
         ArrayList<Evento> eventoA = (ArrayList<Evento>) c.list();
         Criteria c1 = session.createCriteria(Usuario.class);
-        ArrayList<Usuario> usuarioA = (ArrayList<Usuario>) c1.list();
+        usuarioA = (ArrayList<Usuario>) c1.list();
         session.getTransaction().commit();
 
         eventoA.forEach((evento1) -> {
             cbEventos.addItem(evento1);
         });
-
-//        Evento eventoCb = (Evento) cbEventos.getSelectedItem();
-//
-//        String hql = "select rel.usuario from RUsuarioEvento rel where rel.evento.pkCodEvent like :CODIGO_EVENTO";
-//        Query query = session.createQuery(hql);
-//        query.setString("CODIGO_EVENTO", eventoCb.getPkCodEvent().toString());
-//        
-//        ArrayList<RUsuarioEvento> rUsuarioEvento = (ArrayList<RUsuarioEvento>) query.list();
-//        DefaultTableModel tabelaDeUsuarios = (DefaultTableModel) tblListaDeParticipantes.getModel();
-//        Object[] usuariosV = new Object[tabelaDeUsuarios.getColumnCount()];
-//
-//        for (int i = 0; i < usuarioA.size(); i++) {
-//            usuariosV[0] = usuarioA.get(i).getNome();
-//            usuariosV[1] = usuarioA.get(i).getPkCpf();
-//            usuariosV[2] = usuarioA.get(i).getEmail();
-//            usuariosV[3] = usuarioA.get(i).getTelefone();
-//            usuariosV[4] = usuarioA.get(i).getEndereco();
-//            usuariosV[5] = usuarioA.get(i).getCurso();
-//            usuariosV[6] = usuarioA.get(i).getInstituicao();
-//            usuariosV[7] = usuarioA.get(i).getDataNasc();
-//            usuariosV[8] = usuarioA.get(i).getSexo();
-//            tabelaDeUsuarios.addRow(usuariosV);
-//        }
         session.flush();
         session.close();
     }
@@ -213,25 +184,10 @@ public class Presenca extends javax.swing.JDialog {
 
     private void btnSalvarPresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPresencaActionPerformed
         // TODO add your handling code here:
-
     }//GEN-LAST:event_btnSalvarPresencaActionPerformed
 
     private void cbPresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPresencaActionPerformed
         // TODO add your handling code here:
-        //        String presenca = (String) cbPresenca.getSelectedItem();
-        //        System.out.println("Está presente? = " + presenca);
-        //        tblListaDeParticipantes.get;
-        //        String presenca = (String) cbPresenca.getSelectedItem();
-        //        System.out.println("Está presente? = " + presenca);
-        //        if (presenca != null) {
-            //
-            //        }
-
-        //        try {
-            //            System.out.println("" + tblListaDeParticipantes.getValueAt(i, 9).toString());
-            //        } catch (Exception e) {
-            //            System.out.println("ComboBox nula");
-            //        }
     }//GEN-LAST:event_cbPresencaActionPerformed
 
     /**

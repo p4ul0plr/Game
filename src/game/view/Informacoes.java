@@ -175,7 +175,6 @@ public class Informacoes extends javax.swing.JDialog {
         String palestrante = txtPalestrante.getText();
         String tipo = txtTipo.getText();
         Integer pkCodEvent = 10;
-        Set RUsuarioEventos = new HashSet(0);
         evento = new Evento(pkCodEvent, nome, horario, dataEvent, sala, palestrante, tipo);
         Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         s.beginTransaction();

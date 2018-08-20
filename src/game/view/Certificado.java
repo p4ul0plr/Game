@@ -5,25 +5,14 @@
  */
 package game.view;
 
-import game.entity.Evento;
-import game.entity.RUsuarioEvento;
-import game.entity.RUsuarioEventoId;
 import game.entity.Usuario;
-import game.util.HibernateUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -34,6 +23,7 @@ public class Certificado extends javax.swing.JDialog {
     /**
      * Creates new form Certificado
      */
+    
     private String cpf;
 
     public String getCpf() {

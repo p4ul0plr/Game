@@ -10,7 +10,6 @@ import java.util.Set;
  */
 public class Evento  implements java.io.Serializable {
 
-
      private Integer pkCodEvent;
      private String nome;
      private String horario;
@@ -104,7 +103,7 @@ public class Evento  implements java.io.Serializable {
         this.RUsuarioEventos = RUsuarioEventos;
     }
     
-     @Override
+    @Override
     public String toString(){
         return getNome();
     }

@@ -106,17 +106,12 @@ public class MenuAdm extends javax.swing.JDialog {
 
         Informacoes inf = new Informacoes(this,true);
         inf.setVisible(true);
-
-
     }//GEN-LAST:event_btnAdicionarEventoActionPerformed
 
     private void btnAtaDePresencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtaDePresencaActionPerformed
 
         Presenca pres = new Presenca(this,true);
         pres.setVisible(true);
-
-
-
     }//GEN-LAST:event_btnAtaDePresencaActionPerformed
 
     private void btnInformacoesDosEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesDosEventosActionPerformed

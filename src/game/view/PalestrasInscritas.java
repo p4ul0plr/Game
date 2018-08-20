@@ -17,6 +17,7 @@ public class PalestrasInscritas extends javax.swing.JDialog {
     /**
      * Creates new form PalestrasInscritas
      */
+    
     private String cpf;
 
     public String getCpf() {
@@ -34,11 +35,6 @@ public class PalestrasInscritas extends javax.swing.JDialog {
         initComponents();
         
         Usuario usuario = Login.usuario;
-        /*Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Criteria c = session.createCriteria(Evento.class);
-        ArrayList<Evento> eventoA = (ArrayList<Evento>) c.list();
-        session.getTransaction().commit();*/
         
         String hql = "select rel.evento from RUsuarioEvento rel where rel.usuario.pkCpf like  :CPF";
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -60,7 +56,6 @@ public class PalestrasInscritas extends javax.swing.JDialog {
             eventoV[5] = eventoA.get(i).getTipo();
             tabelaDePalestas.addRow(eventoV);
         }
-        //JOptionPane.showMessageDialog(null, "CPF: "+getCpf());
     }
 
     /**
@@ -76,7 +71,7 @@ public class PalestrasInscritas extends javax.swing.JDialog {
         tblPalestrasDoUsuario = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Inscrições");
+        setTitle("Eventos Inscritos");
 
         tblPalestrasDoUsuario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tblPalestrasDoUsuario.setModel(new javax.swing.table.DefaultTableModel(

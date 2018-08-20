@@ -28,6 +28,7 @@ public class VisualizarInscricao extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
+    
     private String cpf;
 
     public String getCpf() {
@@ -57,7 +58,7 @@ public class VisualizarInscricao extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Visualizar Inscrição");
+        setTitle("Menu de Opções do Usuário");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opções"));
 
@@ -118,7 +119,6 @@ public class VisualizarInscricao extends javax.swing.JDialog {
 
         PalestrasInscritas pal = new PalestrasInscritas(this, true);
         pal.setCpf(getCpf());
-        //JOptionPane.showMessageDialog(null, "CPF: "+pal.getCpf());
         pal.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -126,8 +126,6 @@ public class VisualizarInscricao extends javax.swing.JDialog {
 
         Usuario usuario = Login.usuario;
         boolean usuarioPresente = false;
-//        SessionFactory sf = HibernateUtil.getSessionFactory();
-//        Session session = sf.openSession();
         String hql = "select rel from RUsuarioEvento rel where rel.usuario.pkCpf like :CPF";
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();

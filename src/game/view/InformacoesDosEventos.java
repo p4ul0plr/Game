@@ -6,7 +6,6 @@
 package game.view;
 
 import game.entity.Evento;
-import game.entity.RUsuarioEvento;
 import game.entity.Usuario;
 import game.util.HibernateUtil;
 import java.util.ArrayList;
@@ -24,10 +23,8 @@ public class InformacoesDosEventos extends javax.swing.JDialog {
     /**
      * Creates new form Presenca
      */
-    ArrayList<Usuario> usuarioA;
-    ArrayList<String> presencaA;
-    ArrayList<Evento> eventoA;
-    int i = 0;
+    private ArrayList<Usuario> usuarioA;
+    private ArrayList<Evento> eventoA;
 
     public InformacoesDosEventos(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
@@ -45,28 +42,6 @@ public class InformacoesDosEventos extends javax.swing.JDialog {
             cbEventos.addItem(evento1);
         });
 
-//        Evento eventoCb = (Evento) cbEventos.getSelectedItem();
-//
-//        String hql = "select rel.usuario from RUsuarioEvento rel where rel.evento.pkCodEvent like :CODIGO_EVENTO";
-//        Query query = session.createQuery(hql);
-//        query.setString("CODIGO_EVENTO", eventoCb.getPkCodEvent().toString());
-//        
-//        ArrayList<RUsuarioEvento> rUsuarioEvento = (ArrayList<RUsuarioEvento>) query.list();
-//        DefaultTableModel tabelaDeUsuarios = (DefaultTableModel) tblListaDeParticipantes.getModel();
-//        Object[] usuariosV = new Object[tabelaDeUsuarios.getColumnCount()];
-//
-//        for (int i = 0; i < usuarioA.size(); i++) {
-//            usuariosV[0] = usuarioA.get(i).getNome();
-//            usuariosV[1] = usuarioA.get(i).getPkCpf();
-//            usuariosV[2] = usuarioA.get(i).getEmail();
-//            usuariosV[3] = usuarioA.get(i).getTelefone();
-//            usuariosV[4] = usuarioA.get(i).getEndereco();
-//            usuariosV[5] = usuarioA.get(i).getCurso();
-//            usuariosV[6] = usuarioA.get(i).getInstituicao();
-//            usuariosV[7] = usuarioA.get(i).getDataNasc();
-//            usuariosV[8] = usuarioA.get(i).getSexo();
-//            tabelaDeUsuarios.addRow(usuariosV);
-//        }
         session.flush();
         session.close();
     }
